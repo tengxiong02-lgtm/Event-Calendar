@@ -1,8 +1,6 @@
-// Fresno State Events/Clubs MVP
-// Step 2: Load events.json and render event cards into Current, Future, and Past columns.
-
 document.addEventListener("DOMContentLoaded", () => {
   loadEvents();
+  setupModalClose();
 });
 
 async function loadEvents() {
@@ -57,12 +55,45 @@ function createEventCard(event) {
       <p><strong>Time:</strong> ${formatTime(event.startTime)} - ${formatTime(event.endTime)}</p>
       <p><strong>Location:</strong> ${event.location}</p>
       <p><strong>Host:</strong> ${event.host}</p>
-      <p class="event-description">${event.description}</p>
       <button class="details-btn" type="button">View Details</button>
     </div>
   `;
 
+  card.querySelector(".details-btn").addEventListener("click", () => {
+    openEventModal(event);
+  });
+
   return card;
+}
+
+function openEventModal(event) {
+  document.getElementById("modal-image").src = event.image;
+  document.getElementById("modal-image").alt = event.title;
+  document.getElementById("modal-type").textContent = event.eventType || "Event";
+  document.getElementById("modal-title").textContent = event.title;
+  document.getElementById("modal-date").textContent = formatDate(event.date);
+  document.getElementById("modal-time").textContent = `${formatTime(event.startTime)} - ${formatTime(event.endTime)}`;
+  document.getElementById("modal-location").textContent = event.location;
+  document.getElementById("modal-host").textContent = event.host;
+  document.getElementById("modal-importance").textContent = event.importance || "Normal";
+  document.getElementById("modal-description").textContent = event.description;
+
+  document.getElementById("event-modal").classList.remove("hidden");
+}
+
+function setupModalClose() {
+  const modal = document.getElementById("event-modal");
+  const closeBtn = document.getElementById("close-modal");
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.classList.add("hidden");
+    }
+  });
 }
 
 function clearColumns() {
@@ -91,9 +122,7 @@ function addEmptyMessage(columnId, message) {
 function showLoadError() {
   clearColumns();
 
-  const columns = ["current-events", "future-events", "past-events"];
-
-  columns.forEach((columnId) => {
+  ["current-events", "future-events", "past-events"].forEach((columnId) => {
     const column = document.getElementById(columnId);
     const error = document.createElement("p");
     error.className = "empty-message";
