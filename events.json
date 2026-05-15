@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Entrepreneurship Club Meeting",
+    "date": "2026-05-20",
+    "startTime": "18:00",
+    "endTime": "19:30",
+    "location": "Library Room 2206",
+    "host": "Entrepreneurship Club",
+    "description": "Networking and startup discussion for students interested in building businesses.",
+    "image": "images/placeholder.svg",
+    "eventType": "Club",
+    "importance": "Medium"
+  },
+  {
+    "id": 2,
+    "title": "Finance Student Mixer",
+    "date": "2026-05-15",
+    "startTime": "16:00",
+    "endTime": "17:30",
+    "location": "Craig School of Business",
+    "host": "Finance Club",
+    "description": "A casual networking event for finance students and campus organizations.",
+    "image": "images/placeholder.svg",
+    "eventType": "Networking",
+    "importance": "High"
+  },
+  {
+    "id": 3,
+    "title": "Past Club Info Session",
+    "date": "2026-05-01",
+    "startTime": "12:00",
+    "endTime": "13:00",
+    "location": "Student Union",
+    "host": "Student Clubs Office",
+    "description": "Information session for students interested in joining campus clubs.",
+    "image": "images/placeholder.svg",
+    "eventType": "Info Session",
+    "importance": "Low"
+  }
+]
