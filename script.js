@@ -1,3 +1,18 @@
+const LOCAL_USER_KEY = "fresnoEventsUserId";
+
+function getOrCreateUserId() {
+  let userId = localStorage.getItem(LOCAL_USER_KEY);
+
+  if (!userId) {
+    userId = "user_" + crypto.randomUUID();
+    localStorage.setItem(LOCAL_USER_KEY, userId);
+  }
+
+  return userId;
+}
+
+const localUserId = getOrCreateUserId();
+
 document.addEventListener("DOMContentLoaded", () => {
   loadEvents();
   setupModalClose();
