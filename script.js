@@ -12,6 +12,29 @@ function getOrCreateUserId() {
 }
 
 const localUserId = getOrCreateUserId();
+const SAVED_EVENTS_KEY = `savedEvents_${localUserId}`;
+
+function getSavedEvents() {
+  return JSON.parse(localStorage.getItem(SAVED_EVENTS_KEY)) || [];
+}
+
+function saveEvent(eventId) {
+  const savedEvents = getSavedEvents();
+
+  if (!savedEvents.includes(eventId)) {
+    savedEvents.push(eventId);
+    localStorage.setItem(SAVED_EVENTS_KEY, JSON.stringify(savedEvents));
+  }
+}
+
+function removeSavedEvent(eventId) {
+  const savedEvents = getSavedEvents().filter((id) => id !== eventId);
+  localStorage.setItem(SAVED_EVENTS_KEY, JSON.stringify(savedEvents));
+}
+
+function isEventSaved(eventId) {
+  return getSavedEvents().includes(eventId);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   loadEvents();
@@ -61,16 +84,34 @@ function createEventCard(event) {
   const card = document.createElement("article");
   card.className = "event-card";
 
+  const saved = isEventSaved(event.id);
+
   card.innerHTML = `
     <div class="event-content">
       <p class="event-type">${event.eventType || "Other"}</p>
       <h3>${event.title}</h3>
-      <button class="details-btn" type="button">View Details</button>
+
+      <div class="event-actions">
+        <button class="details-btn" type="button">View Details</button>
+        <button class="save-btn" type="button">
+          ${saved ? "Remove from My Calendar" : "Add to My Calendar"}
+        </button>
+      </div>
     </div>
   `;
 
   card.querySelector(".details-btn").addEventListener("click", () => {
     openEventModal(event);
+  });
+
+  card.querySelector(".save-btn").addEventListener("click", () => {
+    if (isEventSaved(event.id)) {
+      removeSavedEvent(event.id);
+    } else {
+      saveEvent(event.id);
+    }
+
+    loadEvents();
   });
 
   return card;
