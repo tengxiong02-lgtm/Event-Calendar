@@ -8,11 +8,11 @@
 </head>
 <body>
 
-<header class="main-header">
-  <h1>Fresno State Events/Clubs</h1>
-  <p>Discover campus events and club activities.</p>
-  <button id="calendar-toggle" type="button">My Calendar</button>
-</header>
+  <header class="main-header">
+    <h1>Fresno State Events/Clubs</h1>
+    <p>Discover campus events and club activities.</p>
+    <button id="calendar-toggle" type="button">My Calendar</button>
+  </header>
 
   <main class="events-layout">
 
@@ -38,16 +38,22 @@
     </section>
 
   </main>
-<section id="calendar-section" class="calendar-section hidden">
-  <div class="calendar-header">
-    <h2>My Saved Events</h2>
-    <button id="close-calendar" type="button">Close Calendar</button>
-  </div>
 
-  <div id="calendar-events" class="calendar-events">
-    <p class="empty-message">No saved events yet.</p>
-  </div>
-</section>
+  <section id="calendar-section" class="calendar-section hidden">
+    <div class="calendar-header">
+      <h2>My Saved Events</h2>
+      <button id="close-calendar" type="button">Close Calendar</button>
+    </div>
+
+    <div class="calendar-controls">
+      <button id="prev-month" type="button">Previous</button>
+      <h3 id="calendar-month"></h3>
+      <button id="next-month" type="button">Next</button>
+    </div>
+
+    <div id="calendar-grid" class="calendar-grid"></div>
+  </section>
+
   <div id="event-modal" class="modal hidden">
     <div class="modal-content">
       <button id="close-modal" class="close-btn" type="button">&times;</button>
