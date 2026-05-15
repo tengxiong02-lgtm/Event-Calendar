@@ -39,6 +39,7 @@ function isEventSaved(eventId) {
 document.addEventListener("DOMContentLoaded", () => {
   loadEvents();
   setupModalClose();
+  setupCalendarToggle();
 });
 
 async function loadEvents() {
@@ -144,6 +145,59 @@ function setupModalClose() {
     if (event.target === modal) {
       modal.classList.add("hidden");
     }
+  });
+}
+
+function setupCalendarToggle() {
+  const calendarToggle = document.getElementById("calendar-toggle");
+  const calendarSection = document.getElementById("calendar-section");
+  const closeCalendar = document.getElementById("close-calendar");
+
+  calendarToggle.addEventListener("click", () => {
+    renderSavedEventsCalendar();
+    calendarSection.classList.remove("hidden");
+  });
+
+  closeCalendar.addEventListener("click", () => {
+    calendarSection.classList.add("hidden");
+  });
+}
+
+async function renderSavedEventsCalendar() {
+  const calendarEvents = document.getElementById("calendar-events");
+  const savedEventIds = getSavedEvents();
+
+  calendarEvents.innerHTML = "";
+
+  if (savedEventIds.length === 0) {
+    calendarEvents.innerHTML = `<p class="empty-message">No saved events yet.</p>`;
+    return;
+  }
+
+  const response = await fetch("events.json");
+  const events = await response.json();
+
+  const savedEvents = events.filter((event) => savedEventIds.includes(event.id));
+
+  savedEvents.forEach((event) => {
+    const eventItem = document.createElement("article");
+    eventItem.className = "calendar-event";
+
+    eventItem.innerHTML = `
+      <h3>${event.title}</h3>
+      <p><strong>Date:</strong> ${formatDate(event.date)}</p>
+      <p><strong>Time:</strong> ${formatTime(event.startTime)} - ${formatTime(event.endTime)}</p>
+      <p><strong>Location:</strong> ${event.location}</p>
+      <button type="button" class="calendar-remove-btn">Remove</button>
+    `;
+
+    eventItem.querySelector(".calendar-remove-btn").addEventListener("click", () => {
+      removeSavedEvent(event.id);
+      loadEvents();
+      renderSavedEventsCalendar();
+    });
+
+    calendarEvents.appendChild(eventItem);
   });
 }
 
