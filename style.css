@@ -184,3 +184,53 @@ body {
 #event-modal.hidden {
   display: none !important;
 }
+.calendar-section {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.calendar-events {
+  display: grid;
+  gap: 1rem;
+}
+
+.calendar-event {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.calendar-event h3 {
+  margin-bottom: 0.5rem;
+}
+
+.calendar-remove-btn,
+#calendar-toggle,
+#close-calendar {
+  cursor: pointer;
+  padding: 0.6rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: #cc0000;
+  color: white;
+  font-weight: 600;
+}
+
+.calendar-remove-btn:hover,
+#calendar-toggle:hover,
+#close-calendar:hover {
+  background: #990000;
+}
