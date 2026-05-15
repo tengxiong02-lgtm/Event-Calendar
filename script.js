@@ -14,6 +14,8 @@ function getOrCreateUserId() {
 const localUserId = getOrCreateUserId();
 const SAVED_EVENTS_KEY = `savedEvents_${localUserId}`;
 
+let currentCalendarDate = new Date();
+
 function getSavedEvents() {
   return JSON.parse(localStorage.getItem(SAVED_EVENTS_KEY)) || [];
 }
@@ -152,53 +154,94 @@ function setupCalendarToggle() {
   const calendarToggle = document.getElementById("calendar-toggle");
   const calendarSection = document.getElementById("calendar-section");
   const closeCalendar = document.getElementById("close-calendar");
+  const prevMonth = document.getElementById("prev-month");
+  const nextMonth = document.getElementById("next-month");
 
   calendarToggle.addEventListener("click", () => {
-    renderSavedEventsCalendar();
+    renderMonthlyCalendar();
     calendarSection.classList.remove("hidden");
   });
 
   closeCalendar.addEventListener("click", () => {
     calendarSection.classList.add("hidden");
   });
+
+  prevMonth.addEventListener("click", () => {
+    currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+    renderMonthlyCalendar();
+  });
+
+  nextMonth.addEventListener("click", () => {
+    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+    renderMonthlyCalendar();
+  });
 }
 
-async function renderSavedEventsCalendar() {
-  const calendarEvents = document.getElementById("calendar-events");
+async function renderMonthlyCalendar() {
+  const calendarMonth = document.getElementById("calendar-month");
+  const calendarGrid = document.getElementById("calendar-grid");
   const savedEventIds = getSavedEvents();
 
-  calendarEvents.innerHTML = "";
+  calendarGrid.innerHTML = "";
 
-  if (savedEventIds.length === 0) {
-    calendarEvents.innerHTML = `<p class="empty-message">No saved events yet.</p>`;
-    return;
-  }
+  const year = currentCalendarDate.getFullYear();
+  const month = currentCalendarDate.getMonth();
+
+  calendarMonth.textContent = currentCalendarDate.toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric"
+  });
 
   const response = await fetch("events.json");
   const events = await response.json();
 
   const savedEvents = events.filter((event) => savedEventIds.includes(event.id));
 
-  savedEvents.forEach((event) => {
-    const eventItem = document.createElement("article");
-    eventItem.className = "calendar-event";
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    eventItem.innerHTML = `
-      <h3>${event.title}</h3>
-      <p><strong>Date:</strong> ${formatDate(event.date)}</p>
-      <p><strong>Time:</strong> ${formatTime(event.startTime)} - ${formatTime(event.endTime)}</p>
-      <p><strong>Location:</strong> ${event.location}</p>
-      <button type="button" class="calendar-remove-btn">Remove</button>
-    `;
+  dayNames.forEach((day) => {
+    const dayHeader = document.createElement("div");
+    dayHeader.className = "calendar-day-header";
+    dayHeader.textContent = day;
+    calendarGrid.appendChild(dayHeader);
+  });
 
-    eventItem.querySelector(".calendar-remove-btn").addEventListener("click", () => {
-      removeSavedEvent(event.id);
-      loadEvents();
-      renderSavedEventsCalendar();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.className = "calendar-cell empty-cell";
+    calendarGrid.appendChild(emptyCell);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+    cell.className = "calendar-cell";
+
+    const dateNumber = document.createElement("strong");
+    dateNumber.textContent = day;
+    cell.appendChild(dateNumber);
+
+    const dateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+    const eventsForDay = savedEvents.filter((event) => event.date === dateString);
+
+    eventsForDay.forEach((event) => {
+      const eventButton = document.createElement("button");
+      eventButton.className = "calendar-event-pill";
+      eventButton.type = "button";
+      eventButton.textContent = event.title;
+
+      eventButton.addEventListener("click", () => {
+        openEventModal(event);
+      });
+
+      cell.appendChild(eventButton);
     });
 
-    calendarEvents.appendChild(eventItem);
-  });
+    calendarGrid.appendChild(cell);
+  }
 }
 
 function clearColumns() {
