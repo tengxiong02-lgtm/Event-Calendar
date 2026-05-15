@@ -49,12 +49,8 @@ function createEventCard(event) {
   card.innerHTML = `
     <img src="${event.image}" alt="${event.title}" class="event-image">
     <div class="event-content">
-      <p class="event-type">${event.eventType || "Event"}</p>
+      <p class="event-type">${event.eventType || "Other"}</p>
       <h3>${event.title}</h3>
-      <p><strong>Date:</strong> ${formatDate(event.date)}</p>
-      <p><strong>Time:</strong> ${formatTime(event.startTime)} - ${formatTime(event.endTime)}</p>
-      <p><strong>Location:</strong> ${event.location}</p>
-      <p><strong>Host:</strong> ${event.host}</p>
       <button class="details-btn" type="button">View Details</button>
     </div>
   `;
