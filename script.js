@@ -47,7 +47,6 @@ function createEventCard(event) {
   card.className = "event-card";
 
   card.innerHTML = `
-    <img src="${event.image}" alt="${event.title}" class="event-image">
     <div class="event-content">
       <p class="event-type">${event.eventType || "Other"}</p>
       <h3>${event.title}</h3>
