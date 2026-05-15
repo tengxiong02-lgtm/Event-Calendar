@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fresno State Events/Clubs</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,28 +15,22 @@
 
   <main class="events-layout">
 
-    <!-- Current Events -->
     <section class="event-column">
       <h2>Current Events</h2>
-
       <div id="current-events" class="events-container">
         <p class="empty-message">Loading events...</p>
       </div>
     </section>
 
-    <!-- Future Events -->
     <section class="event-column">
       <h2>Future Events</h2>
-
       <div id="future-events" class="events-container">
         <p class="empty-message">Loading events...</p>
       </div>
     </section>
 
-    <!-- Past Events -->
     <section class="event-column">
       <h2>Past Events</h2>
-
       <div id="past-events" class="events-container">
         <p class="empty-message">Loading events...</p>
       </div>
@@ -45,7 +38,21 @@
 
   </main>
 
-  <script src="script.js"></script>
+  <div id="event-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="close-modal" class="close-btn" type="button">&times;</button>
+      <img id="modal-image" class="modal-image" src="" alt="">
+      <p id="modal-type" class="event-type"></p>
+      <h2 id="modal-title"></h2>
+      <p><strong>Date:</strong> <span id="modal-date"></span></p>
+      <p><strong>Time:</strong> <span id="modal-time"></span></p>
+      <p><strong>Location:</strong> <span id="modal-location"></span></p>
+      <p><strong>Host:</strong> <span id="modal-host"></span></p>
+      <p><strong>Importance:</strong> <span id="modal-importance"></span></p>
+      <p id="modal-description" class="modal-description"></p>
+    </div>
+  </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
