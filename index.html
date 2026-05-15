@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fresno State Events/Clubs</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="app-header">
+
+  <header class="main-header">
     <h1>Fresno State Events/Clubs</h1>
-    <p>Browse campus and club events in one simple feed.</p>
+    <p>Discover campus events and club activities.</p>
   </header>
 
-  <main class="event-board">
+  <main class="events-layout">
+
     <section class="event-column">
       <h2>Current Events</h2>
-      <div id="current-events" class="event-list">
-        <p class="empty-message">No current events yet.</p>
+      <div id="current-events" class="events-container">
+        <p class="empty-message">Loading events...</p>
       </div>
     </section>
 
     <section class="event-column">
       <h2>Future Events</h2>
-      <div id="future-events" class="event-list">
-        <p class="empty-message">No future events yet.</p>
+      <div id="future-events" class="events-container">
+        <p class="empty-message">Loading events...</p>
       </div>
     </section>
 
     <section class="event-column">
       <h2>Past Events</h2>
-      <div id="past-events" class="event-list">
-        <p class="empty-message">No past events yet.</p>
+      <div id="past-events" class="events-container">
+        <p class="empty-message">Loading events...</p>
       </div>
     </section>
+
   </main>
 
   <script src="script.js"></script>
